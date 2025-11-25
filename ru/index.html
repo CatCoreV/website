@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatCore | Главная</title>
+    <link href="/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="animated-background">
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="blob"></div>
+      <div class="blob"></div>
+    </div>
+
+    <nav>
+      <div class="nav-container">
+        <a href="https://catcore.topcatto.xyz/ru/" class="logo">
+          <span>😺</span>
+          <span>CatCore</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/">RU/EN</a></li>
+          <li><a href="/ru/docs">Документация</a></li>
+          <li><a href="#features">Возможности</a></li>
+          <li><a href="https://github.com/CatCoreV" target="_blank">GitHub</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-emoji">😺</div>
+        <h1>CatCore</h1>
+        <p>Легко сделать свою ОС на ядре CatCore</p>
+        <div class="btn-group">
+          <a href="/ru/docs/get-started" target="_blank" class="btn btn-primary">Начать</a>
+          <a href="#features" class="btn btn-secondary">Узнать больше</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span></span>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <h2 class="section-title fade-in">Почему CatCore?</h2>
+        <p class="section-subtitle fade-in">Мощное, однако доступное ядро операционных систем созданное что-бы сделать разработку ОС простой и весёлой</p>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <span class="feature-icon">✨</span>
+            <h3>Легко использовать</h3>
+            <p>Лёгкое, интуитивное API, которое делает разработку ОС доступной для всех</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">🖥️</span>
+            <h3>Поддержка устройств</h3>
+            <p>Компилятор CatCore может работать на Windows, Linux или MacOS, на x64, x86 или ARM64</p>
+          </div>
+            <div class="feature-card fade-in">
+            <span class="feature-icon">🚀</span>
+            <h3>Приложение VM</h3>
+            <p>Запускайте Вашу ОС как обычное приложение, что-бы быстро исправлять проблемы без необходимости виртуальной машины</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">📚</span>
+            <h3>Поддержка языков</h3>
+            <p>Пишите свою  ОС на одном или несколько лёгких высоко-уровневых языков (например, Python, JavaScript, PHP)</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">👥</span>
+            <h3>Бесплатная быстрая поддержка</h3>
+            <p>Присоединитесь к коммьюнити и получите бесплатную быструю поддержку от разработчика CatCore</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">🔧</span>
+            <h3>Поддерживается</h3>
+            <p>Если Вы найдёте ошибку, сообщите о ней на GitHub и получите быстрое исправление</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">🔒</span>
+            <h3>Безопасно</h3>
+            <p>CatCore имеет много слоёв защиты, а так-же все приложения запускаются внутри контейнеров что-бы убедиться, что Вашу ОС не взломают</p>
+          </div>
+          <div class="feature-card fade-in">
+            <span class="feature-icon">🔗</span>
+            <h3>Бонус</h3>
+            <p>Получите бесплатный <a href="https://handshake.org/" target="_blank">Handshake</a> домен для вашей ОС</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="getting-started">
+      <div class="container">
+        <div class="getting-started fade-in">
+          <h2>Готовы начать?</h2>
+          <p>Начните разработку своей операционной системы с CatCore уже сегодня, это бесплатно!</p>
+          <div class="code-block">
+            <code>git clone https://github.com/CatCoreV/os-compiler.git</code>
+          </div>
+          <div class="btn-group">
+            <a href="/ru/docs/get-started" target="_blank" class="btn btn-primary">Начать</a>
+            <a href="https://github.com/CatCoreV/os-compiler" target="_blank" class="btn btn-secondary">Посмотреть на GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="https://github.com/CatCoreV" target="_blank">GitHub</a>
+          <a href="https://discord.gg/AU5PBWxeVN" target="_blank">Discord</a>
+          <a href="/ru/docs" target="_blank">Документация</a>
+        </div>
+        <p class="footer-text">
+          &copy; 2025 CatCore. Сделано topcatto с 💜.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.querySelectorAll(`a[href^="#"]`).forEach(anchor => {
+        anchor.addEventListener("click", event => {
+          var href = this.getAttribute("href");
+          if (href !== "#") {
+            event.preventDefault();
+            var target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({
+                "behavior": "smooth",
+                "block": "start"
+              });
+            }
+          }
+        });
+      });
+
+      var observerOptions = {
+        "threshold": 0.1,
+        "rootMargin": "0px 0px -50px 0px"
+      };
+      var observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+      Array.from(document.querySelectorAll(".fade-in")).forEach(el => {
+        observer.observe(el);
+      });
+
+      window.addEventListener("scroll", () => {
+        var scrollIndicator = document.querySelector(".scroll-indicator");
+        if (scrollIndicator) {
+          if (window.scrollY > 100) {
+            scrollIndicator.style.opacity = "0";
+          } else {
+            scrollIndicator.style.opacity = "1";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
