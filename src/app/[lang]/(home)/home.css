@@ -22,6 +22,10 @@ body {
   line-height: 1.6;
 }
 
+a {
+  color: #28c8d1;
+}
+
 .animated-background {
   position: fixed;
   top: 0;
@@ -319,6 +323,7 @@ section {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--text-primary);
+  font-weight: bold;
 }
 
 .feature-card p {
@@ -375,6 +380,7 @@ section {
 .getting-started h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .getting-started p {

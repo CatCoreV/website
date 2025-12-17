@@ -1,0 +1,28 @@
+---
+title: Getting Started
+description: How to get started on your first OS.
+---
+
+Welcome! Let's start by installing `os-compiler`, which will be referenced later as just *compiler*.
+Compiler is required for you to easily compile your OS and apps source code, add kernel and all the needed libraries, and make the final binaries.
+
+Start by downloading latest [os-compiler](https://github.com/CatCoreV/os-compiler) release from **GitHub** either manually or via terminal:
+```bash
+topcatto@CAT-PC:~ $ git clone --branch v0.0.1 https://github.com/CatCoreV/os-compiler.git
+```
+
+After that, enter `os-compiler` folder and run install script depending on your host OS.
+
+```bash
+topcatto@CAT-PC:~ $ cd os-compiler
+```
+
+```bash
+# Windows
+D:\os-compiler> .\install-windows
+
+# Linux / MacOS
+topcatto@CAT-PC:~/os-compiler $ chmod +x install-unix.sh && ./install-unix.sh
+```
+
+Now, just open `catcore_compiler` / `catcore_compiler.exe` / `Catcore Compiler` depending on your host OS.
