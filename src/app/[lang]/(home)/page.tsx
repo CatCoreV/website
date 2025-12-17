@@ -74,7 +74,7 @@ export default function HomePage() {
           </a>
           <ul className="nav-links">
             <li><Link href="/ru">EN/RU</Link></li>
-            <li><Link href="/en/docs/getting-started">Documentation</Link></li>
+            <li><a href="/en/docs/getting-started" target="_blank">Documentation</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="https://github.com/CatCoreV" target="_blank">GitHub</a></li>
           </ul>
