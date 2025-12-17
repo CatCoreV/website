@@ -40,6 +40,7 @@ export const Accordions = forwardRef<
     const value = selected.getAttribute('data-accordion-value');
 
     if (value)
+      // eslint-disable-next-line
       setValue((prev) => (typeof prev === 'string' ? value : [value, ...prev]));
   }, []);
 

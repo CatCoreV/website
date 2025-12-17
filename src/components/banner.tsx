@@ -46,6 +46,7 @@ export function Banner({
   const globalKey = id ? `nd-banner-${id}` : null;
 
   useEffect(() => {
+    // eslint-disable-next-line
     if (globalKey) setOpen(localStorage.getItem(globalKey) !== 'true');
   }, [globalKey]);
 
