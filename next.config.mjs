@@ -6,7 +6,10 @@ const withMDX = createMDX();
 const config = {
   "reactStrictMode": true,
   "trailingSlash": true,
-  "output": "export"
+  "output": "export",
+  "images": {
+    "unoptimized": true
+  }
 };
 
 export default withMDX(config);
