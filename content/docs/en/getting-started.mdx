@@ -1,0 +1,92 @@
+---
+title: Getting Started
+description: How to install and use the compiler.
+---
+
+Welcome! Let's start by installing `os-compiler`, which will be referenced later as just *compiler*.
+
+Compiler is required for you to easily compile your OS and apps source code, add kernel and all the needed libraries, and make the final binaries.
+
+Start by downloading latest [os-compiler](https://github.com/CatCoreV/os-compiler) release from **GitHub** either manually or via terminal:
+
+```bash
+git clone --branch v0.0.1 https://github.com/CatCoreV/os-compiler.git
+```
+
+
+After that, enter `os-compiler` folder and run install script depending on your host OS:
+
+<Tabs groupId="hostos" items={["Windows", "Linux", "MacOS"]} persist>
+  <Tab value="Windows">
+    ```bash
+    .\install-windows
+    ```
+
+    Now, just open `catcore_compiler.exe` to open compiler GUI:
+  </Tab>
+  <Tab value="Linux">
+    ```bash
+    chmod +x install-unix.sh && ./install-unix.sh
+    ```
+
+    Now, just open `catcore_compiler` to open compiler GUI:
+  </Tab>
+  <Tab value="MacOS">
+    ```bash
+    chmod +x install-unix.sh && ./install-unix.sh
+    ```
+
+    Now, just open `Catcore Compiler` to open compiler GUI:
+  </Tab>
+</Tabs>
+
+![CatCore Compiler GUI](/catcore_compiler_gui.png)
+
+First I would recommend to learn about all the compiler buttons:
+
+<Accordions>
+  <Accordion title="Language Selector" id="language-selector">
+    That "**EN v**" at top left corner is a language selector.
+    At the moment of writing this, officially supported languages are **EN**glish and **RU**ssian,
+    but feel free to contribute adding more languages!
+    You do **not** need to restart the compiler to change the language.
+  </Accordion>
+  <Accordion title="Title Bar" id="title-bar">
+    You can move the compiler window just by holding it at the top and dragging it.
+    There's also a minimize and close buttons.
+  </Accordion>
+  <Accordion title="Compiler Block" id="compiler-block">
+    Compiler block has a version number of the compiler you have.
+    Click on the arrows icon on the right to check for updates and automatically install them.
+    After update is done, you'll have to launch the compiler again.
+  </Accordion>
+  <Accordion title="Kernel Block" id="kernel-block">
+    Kernel block has a select menu, where you can choose a version of the **bootloader** + **kernel** to use.
+    Bootloader and kernel are the main core of your OS, so I would recommend to use the newest version.
+    Versions are sorted from the newest to the oldest, which means the first one is the newest and recommended to use.
+    Use arrows icon on the right to reload the list of versions, which is useful in case a new kernel version releases, while your compiler was still opened.
+    Below, there's an **architecture** select menu, you have to compile for specific CPU architecture, otherwise your OS will not boot at all. Currently supported architectures are **x64** and **ARM64**.
+  </Accordion>
+  <Accordion title="System Block" id="system-block">
+    System block just contains the name of the folder that contains your OS, which by default is `src`.
+    This is useful for compiling multiple operating systems, by just having them in separate folders.
+  </Accordion>
+  <Accordion title="Result Block" id="result-block">
+    Result block contains a **target** select menu. Target means where your OS will be launched.
+    For development, it's recommended to use an **app** - your OS will be compiled as an executable binary for your host OS, so you don't have to reboot or use a virtual machine.
+    **CatCore** supports compiling an app for **Windows**, **Linux** or **MacOS**.
+    For production, use **Bootable .iso** target, which is currently internally work in progress, so it's locked, as well as other targets. ***COMING SOON.***
+    There's also **Windowed** mode, which makes your OS a simple window, instead of a full-screen application that captures keyboard by it's maximum, making it harder to exit.
+    New **Quick** mode allows you to use cache of previous compilation to highly speed up the next one.
+    Since you just opened the compiler, it's **locked**, but once you'll do a compilation, it will unlock.
+    Note that if you change any setting (like the kernel version, architecture or target), quick compilation will lock again.
+    > Quick compilation is useful, but it also keeps old files in `/data` mount, which can break your OS in some rare cases, but that's your OS issue, which you probably **should** fix if it happens!
+  </Accordion>
+  <Accordion title="Bottom bar" id="bottom-bar">
+    Bottom bar contains a status of the compilation, like **Ready!**, which displays what is currently happening.
+    Use big **COMPILE!** button to start the compilation with your settings.
+    On the right, there's also two smaller buttons: **Start** and **Stop**. They're used for quickly opening the app you have built or closing it to recompile.
+  </Accordion>
+</Accordions>
+
+Now, that you have understanding of the compiler, you can continue this guide to make and boot your first OS.
