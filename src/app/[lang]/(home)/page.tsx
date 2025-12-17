@@ -74,7 +74,7 @@ export default function HomePage() {
           </a>
           <ul className="nav-links">
             <li><Link href="/ru">EN/RU</Link></li>
-            <li><Link href="/docs">Documentation</Link></li>
+            <li><Link href="/en/docs/getting-started">Documentation</Link></li>
             <li><a href="#features">Features</a></li>
             <li><a href="https://github.com/CatCoreV" target="_blank">GitHub</a></li>
           </ul>
@@ -87,7 +87,7 @@ export default function HomePage() {
           <h1>CatCore</h1>
           <p>It&apos;s easy to make your own OS with CatCore kernel</p>
           <div className="btn-group">
-            <a href="/docs/get-started" target="_blank" className="btn btn-primary">
+            <a href="/en/docs/getting-started" target="_blank" className="btn btn-primary">
               Get Started
             </a>
             <a href="#features" className="btn btn-secondary">
@@ -166,7 +166,7 @@ export default function HomePage() {
               <code>git clone https://github.com/CatCoreV/os-compiler.git</code>
             </div>
             <div className="btn-group">
-              <a href="/docs/get-started" target="_blank" className="btn btn-primary">
+              <a href="/en/docs/getting-started" target="_blank" className="btn btn-primary">
                 Get Started
               </a>
               <a href="https://github.com/CatCoreV/os-compiler" target="_blank" className="btn btn-secondary">
