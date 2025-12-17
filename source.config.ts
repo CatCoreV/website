@@ -1,11 +1,13 @@
 import { defineConfig, defineDocs, frontmatterSchema, metaSchema } from "fumadocs-mdx/config";
+import { remarkMdxFiles } from "fumadocs-core/mdx-plugins";
 
 export const docs = defineDocs({
   "dir": "content/docs",
   "docs": {
     "schema": frontmatterSchema,
     "postprocess": {
-      "includeProcessedMarkdown": true
+      "includeProcessedMarkdown": true,
+      "extractLinkReferences": true
     }
   },
   "meta": {
@@ -14,5 +16,7 @@ export const docs = defineDocs({
 });
 
 export default defineConfig({
-  "mdxOptions": {}
+  "mdxOptions": {
+    "remarkPlugins": [remarkMdxFiles]
+  }
 });
