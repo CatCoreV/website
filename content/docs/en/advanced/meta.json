@@ -1,0 +1,6 @@
+{
+  "title": "Advanced",
+  "icon": "Atom",
+  "pages": ["app-file-structure"],
+  "defaultOpen": true
+}

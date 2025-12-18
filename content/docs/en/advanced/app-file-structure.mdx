@@ -1,0 +1,31 @@
+---
+title: App File Structure
+description: How app files work on the inside.
+---
+
+![App File Structure](/app_file_structure.png)
+
+First `62 80 62 80` bytes (red color) is **CatCore Magic Signature** - kernel, apps, kexts all start from these bytes.
+
+Next `02` byte (green color) is **File Type**, where `02` means it's an** .app** (**Application File**).
+
+Next `01` byte (yellow color) is **Application Type**. Check table below to know all the application types (they also are available in `CatCore.ProcessType` variable, except the `CatCore.ProcessType.APP`):
+
+| Number | Type       |
+|--------|------------|
+| 0      | DUMMY      |
+| 1      | KERNEL     |
+| 3      | JAVASCRIPT |
+| 4      | PYTHON     |
+| 5      | PHP        |
+| 6      | RUBY       |
+
+Next `01` byte (dark blue color) is **Application Flags** (bitfield). Check table below to know all the bitfield flags:
+
+| Flag    | Name   | Description            |
+|---------|--------|------------------------|
+| 1 \<< 0 | SIGNED | Application is signed. |
+
+If application has `SIGNED` flag, next 256 bytes (purple color) is a **Signature**.
+
+Everything else after that (light blue color) is an **Application Manifest**, which is reversed Base64 of a JSON object. JSON object **doesn't** have a strict structure, the only requirement is `code` property, containing the application code itself.

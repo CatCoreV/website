@@ -3,4 +3,171 @@ title: First OS
 description: How to make and boot your first OS.
 ---
 
-# Work in progress.
+import { File, Folder, Files } from "fumadocs-ui/components/files";
+import { Terminal, AppWindow } from "lucide-react";
+
+Let's make your first OS, by the end of this guide you will have the following file structure:
+
+<Files>
+  <Folder name="src" defaultOpen>
+    <Folder name="overlay-fs" defaultOpen>
+      <Folder name="system" defaultOpen>
+        <File name="system.js" />
+        <File name="logo.png" />
+      </Folder>
+    </Folder>
+    <Folder name="apps" defaultOpen />
+    <File name="system.json" />
+  </Folder>
+</Files>
+
+Start by creating all the folders (but `src/apps` is optional!), and then let's make `src/system.json` file (which is, actually, optional too):
+
+```json
+{
+  "name": "ExampleOS",
+  "version": "v0.0.1",
+  "logo": "/system/logo.png",
+  "loading": "circle"
+}
+```
+
+<Accordions>
+  <Accordion title="name" id="systemjson-name">
+    It's the name of your OS as a string, which will be the name of your executable, app window and as a `CatCore.systemName` variable inside your code. It's recommended to set this value, but the default is `"System"`.
+  </Accordion>
+  <Accordion title="version" id="systemjson-version">
+    It's the version of your OS as a string starting from `v`, which will be available as `CatCore.systemVersion` variable inside your code. It's recommended to set this value. If it's not starting from `v`, it will be automatically added (`0.0.1` --> `v0.0.1`).
+  </Accordion>
+  <Accordion title="logo" id="systemjson-logo">
+    Optional logo of your OS at boot screen and app icon. Must be a string of a **CatCore path** (check example with `overlay-fs` above).
+  </Accordion>
+  <Accordion title="loading" id="systemjson-loading">
+    Sets boot screen loader style. Must be `"circle"` or `"bar"`, defaults to `"circle"`.
+    Circle is similar to Windows 11 boot and bar is similar to iOS/MacOS boot.
+    This choice is decorative, but bar can have a progress percentage (how much % of the bar is filled), giving more information to the user.
+  </Accordion>
+</Accordions>
+
+Once you have made the folders, `system.json` (or decided to skip it) and logo file (optional), you need to create a file for your OS code.
+
+OS code file must be in `/system` mount, named `system` or `sys`, and have any supported language extension. Currently supported languages: **JavaScript**, **Python**, **PHP**, **Ruby**, but this list will increase in future updates.
+
+Once you have created the file, paste this example code:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    CatCore.loadProgress();
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    CatCore.loadProgress()
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      $CatCore->loadProgress();
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    CatCore.loadProgress()
+    ```
+  </Tab>
+</Tabs>
+
+Next, compile your first OS and open it. After some waiting, you should have a black screen - congratulations with your first OS! 🎉
+
+<Callout title="Troubleshooting">
+  If you have some issues and do not get a black screen, press `Ctrl + Shift + F8` inside your OS, even while it's booting. There's a great chance a **logs panel** will open up containing enough information to fix problems. If you still can't get your first OS to work, contact CatCore support using [Discord](https://discord.gg/AU5PBWxeVN) or [GitHub](https://github.com/CatCoreV).
+</Callout>
+
+For future development, you may use some IDE that can speed up your OS development. I recommend **VSCode**, as it's the only one tested with **CatCore**. To use IDE integration, just open `os-compiler` folder in your IDE and if your IDE supports it, it will automatically pick-up all the needed files. You might need to compile at least 1 time for IDE integration to work properly. If you're using **JavaScript**, your IDE might not like top-level `await`, even though it's supported - we can't fix this issue, so you'll have to just add an async wrapper.
+
+And lastly, you should learn how to control the bootscreen:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    // Loop from 1% to 100%
+    for (var i = 1; i <= 100; i++) {
+      // Set the loading progress
+      CatCore.loadProgress(i);
+      // Wait 0.1 seconds
+      await CatCore.delay(0.1 *CatCore.SECOND);
+    }
+
+    // Without an argument, it completely ends the boot and hides the boot screen
+    CatCore.loadProgress();
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    import asyncio
+
+    async def main():
+      # Loop from 1% to 100%
+      for i in range(1, 101):
+        # Set the loading progress
+        CatCore.loadProgress(i)
+        # Wait 0.1 seconds
+        await CatCore.delay(0.1 *CatCore.SECOND)
+
+      # Without an argument, it completely ends the boot and hides the boot screen
+      CatCore.loadProgress()
+    
+    asyncio.run(main())
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      // Loop from 1% to 100%
+      for (var i = 1; i <= 100; i++) {
+        // Set the loading progress
+        $CatCore->loadProgress(i);
+        // Wait 0.1 seconds
+        await $CatCore->delay(0.1 *CatCore.SECOND);
+      }
+
+      // Without an argument, it completely ends the boot and hides the boot screen
+      $CatCore->loadProgress();
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    # Loop from 1% to 100%
+    (1..100).each do |i|
+      # Set the loading progress
+      CatCore.loadProgress(i)
+      # Wait 0.1 seconds
+      await CatCore.delay(0.1 *CatCore::SECOND)
+    end
+
+    # Without an argument, it completely ends the boot and hides the boot screen
+    CatCore.loadProgress()
+    ```
+  </Tab>
+</Tabs>
+
+<Callout title="Did not understand?">
+  If you have trouble understanding the code, you probably **should** learn English (words like **delay** or **load progress**) or your programming language (like `for` or `await`).
+  In JavaScript, top-level `await` is allowed, even if your IDE does not think that.
+  If you're a Ruby developer, you might not know about `await`, as Ruby does not have that keyword, so you'll have to learn it like in other languages. Simple explanation of `await` is just to **wait** for that function to finish, even if it takes a long time in the background.
+</Callout>
+
+Now, that you have basic understanding of CatCore, you can make a **text-based terminal OS**, a **graphical OS**, or even both at the same time, and it's **your** choice, so choose what you want to start with:
+
+<Cards>
+  <Card href="/en/docs/text-mode" icon={<Terminal />} title="Text mode">
+    I choose to learn how to interact with CatCore's **text mode** and make a text-based terminal OS.
+  </Card>
+  <Card href="/en/docs/gui/window" icon={<AppWindow />} title="Graphical mode">
+    I choose to start learning GUI (Graphical User Interface) and start making a basic window.
+  </Card>
+</Cards>

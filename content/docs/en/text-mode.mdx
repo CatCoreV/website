@@ -1,0 +1,131 @@
+---
+title: Text Mode
+description: How to use text mode.
+---
+
+First, let's start by just outputting some text:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    CatCore.text("Hello, World!");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    CatCore.text("Hello, World!")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      $CatCore->text("Hello, World!");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    CatCore.text("Hello, World!")
+    ```
+  </Tab>
+</Tabs>
+
+This was easy! And for multi-line texts just use `\n` or anything else you would normally.
+
+You might want to **customize** this text. Here's an example of one of text's properties:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    // Set value
+    CatCore.textOffset(16);
+
+    // Read value
+    var offset = CatCore.textOffset();
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    # Set value
+    CatCore.textOffset(16)
+
+    # Read value
+    offset = CatCore.textOffset()
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      // Set value
+      $CatCore->textOffset(16);
+
+      // Read value
+      $offset = $CatCore->textOffset();
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    # Set value
+    CatCore.textOffset(16)
+
+    # Read value
+    offset = CatCore.textOffset()
+    ```
+  </Tab>
+</Tabs>
+
+This is just an example, here's the list of every single one, use them just as an example above:
+
+<Accordions>
+  <Accordion title="textOffset" id="textmode-offset">
+    It's a number - amount of pixels from top-left corner to the start of the text, defaults to `10`.
+  </Accordion>
+  <Accordion title="textFont" id="textmode-font">
+    It's a string - font name your text will use. User must have it installed in their host OS, if using an app.
+  </Accordion>
+  <Accordion title="textSize" id="textmode-size">
+    It's a number - size of the text, defaults to `13`.
+  </Accordion>
+  <Accordion title="textColor" id="textmode-color">
+    It's a color of the text, defaults to `white`.
+  </Accordion>
+  <Accordion title="backgroundColor" id="textmode-background">
+    It's a color of the background, defaults to `black`.
+  </Accordion>
+</Accordions>
+
+## ANSI
+
+There's also one more function `CatCore.enableANSI`, which is a boolean. It controls whetever `CatCore.text` should parse and render ANSI escape sequences. Here's an example for you:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    CatCore.enableANSI(true);
+    CatCore.text("This is \x1b[1mBOLD\x1b[0m!");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    CatCore.enableANSI(True)
+    CatCore.text("This is \x1b[1mBOLD\x1b[0m!")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      $CatCore->enableANSI(true);
+      $CatCore->text("This is \x1b[1mBOLD\x1b[0m!");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    CatCore.enableANSI(true)
+    CatCore.text("This is \x1b[1mBOLD\x1b[0m!")
+    ```
+  </Tab>
+</Tabs>
+
+CatCore understands a lot of ANSI escape sequences: bold, dim/faint, italic, underline, inverted, striketrough, background and foreground colors (in 8/16/256/RGB color modes).
