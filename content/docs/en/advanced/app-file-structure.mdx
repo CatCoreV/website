@@ -7,7 +7,7 @@ description: How app files work on the inside.
 
 First `62 80 62 80` bytes (red color) is **CatCore Magic Signature** - kernel, apps, kexts all start from these bytes.
 
-Next `02` byte (green color) is **File Type**, where `02` means it's an** .app** (**Application File**).
+Next `02` byte (green color) is **File Type**, where `02` means it's an **.app** (**Application File**).
 
 Next `01` byte (yellow color) is **Application Type**. Check table below to know all the application types (they also are available in `CatCore.ProcessType` variable, except the `CatCore.ProcessType.APP`):
 
