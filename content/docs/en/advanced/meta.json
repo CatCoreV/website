@@ -1,6 +1,5 @@
 {
   "title": "Advanced",
   "icon": "Atom",
-  "pages": ["app-file-structure"],
-  "defaultOpen": true
+  "pages": ["app-file-structure"]
 }
