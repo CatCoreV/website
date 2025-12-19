@@ -129,3 +129,155 @@ There's also one more function `CatCore.enableANSI`, which is a boolean. It cont
 </Tabs>
 
 CatCore understands a lot of ANSI escape sequences: bold, dim/faint, italic, underline, inverted, striketrough, background and foreground colors (in 8/16/256/RGB color modes).
+
+## Keyboard Input
+
+To make a terminal, user needs to not only read the output, but also input the commands! There's `CatCore.keyboard` object for that. Here's an example:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    function keyholdHandler(event) {
+      if (event.key == "Shift+Digit2") {
+        // User pressed Shift + 2
+      }
+    }
+
+    CatCore.keyboard.on("hold", keyholdHandler);
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    def keyholdHandler(event):
+      if event.key == "Shift+Digit2":
+        # User pressed Shift + 2
+        ...
+
+    CatCore.keyboard.on("hold", keyholdHandler)
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      function $keyholdHandler($event) {
+        if ($event->key == "Shift+Digit2") {
+          // User pressed Shift + 2
+        }
+      }
+
+      $CatCore->keyboard->on("hold", keyholdHandler);
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    def keyholdHandler(event)
+      if event.key == "Shift+Digit2"
+        # User pressed Shift + 2
+      end
+    end
+
+    CatCore.keyboard.on("hold", keyholdHandler)
+    ```
+  </Tab>
+</Tabs>
+
+There's two events - `hold` and `release`, they trigger on user pressing and releasing the key.
+
+When your callback gets called, it receives an `event`, which is an object:
+
+<TypeTable
+  type={{
+    "key": {
+      "type": "string",
+      "description": "Pressed key name, like KeyE, LeftShift, Digit4 or a combination like Ctrl+Shift+Alt+Meta+KeyE."
+    },
+    "letter": {
+      "type": "string",
+      "description": "Letter to simulate typing experience, like `e`. Automatically handles Shift, CapsLock, multiple languages and everything else, recommended to use for a terminal."
+    }
+  }}
+/>
+
+Knowing this, you can make a simple terminal:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    // Variable to store last command outputs
+    var history = "";
+    // Variable to store current command that is being typed
+    var command = "";
+
+    // Render terminal on the screen
+    function renderTerminal() {
+      CatCore.text(`${history}$ ${command}`);
+    }
+
+    function keyholdHandler(event) {
+      if (event.key == "Enter") {
+        // Split typed command into command itself and arguments
+        var args = command.split(" ");
+        var cmd = args.shift();
+        // Execute the command
+        switch(cmd) {
+          case "test":
+            history += `Test! You entered ${args.length} arguments.\n`;
+            break;
+          default:
+            history += `Unknown command: ${cmd}.\n`;
+        }
+        command = "";
+      } else if (event.key == "Backspace") {
+        // Handle backspace to delete last character
+        command = command.slice(0, -1);
+      } else {
+        // Add characters
+        command += event.letter;
+      }
+      renderTerminal();
+    }
+    CatCore.keyboard.on("hold", keyholdHandler);
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    # Variable to store last command outputs
+    history = ""
+    # Variable to store current command that is being typed
+    command = ""
+
+    # Render terminal on the screen
+    def renderTerminal():
+      CatCore.text(f"{history}$ {command}")
+
+    def keyholdHandler(event):
+      if event.key == "Enter":
+        # Split typed command into command itself and arguments
+        args = command.split(" ")
+        cmd = args.pop(0)
+        # Execute the command
+        match cmd:
+          case "test":
+            history += f"Test! You entered {len(args)} arguments.\n"
+            break
+          case _:
+            history += f"Unknown command: {cmd}.\n"
+        command = ""
+      elif event.key == "Backspace":
+        # Handle backspace to delete last character
+        command = command[:-1]
+      else:
+        # Add characters
+        command += event.letter
+      renderTerminal()
+    CatCore.keyboard.on("hold", keyholdHandler)
+    ```
+  </Tab>
+  <Tab value="PHP">
+    Work in Progress
+  </Tab>
+  <Tab value="Ruby">
+    Work in Progress
+  </Tab>
+</Tabs>

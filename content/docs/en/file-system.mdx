@@ -1,0 +1,392 @@
+---
+title: File System
+description: How to work with files, directories and symlinks.
+---
+
+import { File, Folder, Files } from "fumadocs-ui/components/files";
+
+CatCore has it's own file system structure:
+
+<Files>
+  <Folder name="/" defaultOpen>
+    <Folder name="bin" defaultOpen>
+      <File name="..." />
+    </Folder>
+    <Folder name="boot" defaultOpen>
+      <File name="bootloader.bin" />
+      <File name="kernel" />
+    </Folder>
+    <Folder name="config" defaultOpen>
+      <File name="kernel.conf" />
+    </Folder>
+    <Folder name="data" defaultOpen>
+      <File name="..." />
+    </Folder>
+    <Folder name="dev" defaultOpen>
+      <File name="..." />
+    </Folder>
+    <Folder name="system" defaultOpen>
+      <File name="..." />
+    </Folder>
+  </Folder>
+</Files>
+
+`/` is root, containing **mounts** inside.
+
+`/bin`, `/boot`, `/config`, `/data`, `/dev` and `/system` are **mounts**, each one has it's own use:
+
+<Accordions>
+  <Accordion title="/bin" id="filesystem-bin">
+    `/bin` mount contains **BIN**aries of applications (.app files). If user tries to start an application by specifying it's name, it's a standard to look for it in there.
+  </Accordion>
+  <Accordion title="/boot" id="filesystem-boot">
+    `/boot` mount contains files needed for **BOOT**ing, like `/boot/bootloader.bin` and `/boot/kernel`. If any of these files are deleted, your OS might not boot. This also allows you to make sure your OS can use the latest kernel without any re-installations, as your OS can just swap the file with a different version of bootloader/kernel.
+  </Accordion>
+  <Accordion title="/config" id="filesystem-size">
+    `/config` contains **CONFIG**uration (.conf files) for various targets. For example, kernel has it's own `/config/kernel.conf` file there.
+  </Accordion>
+  <Accordion title="/data" id="filesystem-color">
+    `/data` is empty by default. You're supposed to store anything your OS/user/apps want there.
+  </Accordion>
+  <Accordion title="/dev" id="filesystem-background">
+    `/dev` contains **devices** inside and it's contents may vary on the host device.
+  </Accordion>
+  <Accordion title="/system" id="filesystem-background">
+    `/system` is empty by default, but you're supposed to add files there using `src/overlay-fs/system` of your OS source code. This mount is supposed to contain OS files and CatCore looks for `system` or `sys` file to boot in there.
+  </Accordion>
+</Accordions>
+
+Now that you know the structure, let's look at how you can interact with it inside your code. First you might want to check if some path exists, get it's info and directtory contents inside:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    if (await CatCore.FS.exists("/", true)) {
+      // Path / exists
+
+      // Get info
+      var info = await CatCore.FS.info("/", true);
+      console.log(info.type == CatCore.FS.Type.ROOT); // true
+
+      var contents = await CatCore.FS.readdir("/");
+      console.log(contents); // ["bin", "boot", "config", "data", "dev", "system"]
+    }
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    if await CatCore.FS.exists("/", True):
+      # Path / exists
+
+      # Get info
+      info = await CatCore.FS.info("/", True)
+      print(info.type == CatCore.FS.Type.ROOT) # true
+
+      contents = await CatCore.FS.readdir("/")
+      print(contents) # ("bin", "boot", "config", "data", "dev", "system")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      if (await $CatCore->FS->exists("/", true)) {
+        // Path / exists
+
+        // Get info
+        $info = await $CatCore->FS->info("/", true);
+        echo $info->type == $CatCore->FS->Type->ROOT; // true
+
+        $contents = await $CatCore->FS->readdir("/");
+        echo $contents; // ["bin", "boot", "config", "data", "dev", "system"]
+      }
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    if await CatCore.FS.exists("/", true)
+      # Path / exists
+
+      # Get info
+      info = await CatCore.FS.info("/", true)
+      puts(info.type == CatCore.FS.Type.ROOT) # true
+
+      contents = await CatCore.FS.readdir("/")
+      puts(contents) # ["bin", "boot", "config", "data", "dev", "system"]
+    end
+    ```
+  </Tab>
+</Tabs>
+
+<Callout title="What does true mean here?">
+  You might have noticed that `CatCore.FS.exists` and `CatCore.FS.info` have `true` as a second argument.
+  That argument is named `follow` and controls if that function should follow **symlinks**.
+  Until you learn symlinks, you can keep it as `true`.
+</Callout>
+
+## Making changes
+
+Let's actually make some changes - like create and delete a directory, for example:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    // Creating a folder
+    await CatCore.FS.mkdir("/data/test");
+
+    // Deleting a folder
+    await CatCore.FS.rmdir("/data/test", true);
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    # Creating a folder
+    await CatCore.FS.mkdir("/data/test")
+
+    # Deleting a folder
+    await CatCore.FS.rmdir("/data/test", True)
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      // Creating a folder
+      await $CatCore->FS->mkdir("/data/test");
+
+      // Deleting a folder
+      await $CatCore->FS->rmdir("/data/test", true);
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    # Creating a folder
+    await CatCore.FS.mkdir("/data/test")
+
+    # Deleting a folder
+    await CatCore.FS.rmdir("/data/test", true)
+    ```
+  </Tab>
+</Tabs>
+
+<Callout title="What does true mean here?">
+  You might have noticed that `CatCore.FS.rmdir` has `true` as a second argument.
+  That argument is named `recursive` and controls if that function should delete directory recursively (even if it contains files and folders inside!).
+</Callout>
+
+## Working with files
+
+Files can be hard to work with:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    // fd is a handle
+    var fd = await CatCore.FS.open("/data/test.txt", "rw+");
+
+    // Writing to a file
+    await fd.write("Test!");
+
+    // Reading a file as Buffer
+    var contents = await fd.read();
+    // Or as a string
+    var contents = await fd.readString();
+    // Or as JSON
+    var contents = await fd.readJSON();
+
+    // Close the handle once you finished working with it!
+    fd.close();
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    # fd is a handle
+    fd = await CatCore.FS.open("/data/test.txt", "rw+")
+
+    # Writing to a file
+    await fd.write("Test!")
+
+    # Reading a file as Buffer
+    contents = await fd.read()
+    # Or as a string
+    contents = await fd.readString()
+    # Or as JSON
+    contents = await fd.readJSON()
+
+    # Close the handle once you finished working with it!
+    fd.close()
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      // $fd is a handle
+      $fd = await $CatCore->FS->open("/data/test.txt", "rw+");
+
+      // Writing to a file
+      await $fd->write("Test!");
+
+      // Reading a file as Buffer
+      $contents = await $fd->read();
+      // Or as a string
+      $contents = await $fd->readString();
+      // Or as JSON
+      $contents = await $fd->readJSON();
+
+      // Close the handle once you finished working with it!
+      $fd->close();
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    # fd is a handle
+    fd = await CatCore.FS.open("/data/test.txt", "rw+")
+
+    # Writing to a file
+    await fd.write("Test!")
+
+    # Reading a file as Buffer
+    contents = await fd.read()
+    # Or as a string
+    contents = await fd.readString()
+    # Or as JSON
+    contents = await fd.readJSON()
+
+    # Close the handle once you finished working with it!
+    fd.close()
+    ```
+  </Tab>
+</Tabs>
+
+Files work using **handles**, as you can see you need to open them with a specific **mode**, then do operations and close it.
+
+If you're wondering what mode means: `r` means allow **R**eading, `w` means allow **W**riting, `x` - e**X**clusive (will give an error instead of opening the file if it exists), `+` will create the file if it doesn't exist.
+
+<Callout title="Why do I need the mode?">
+  You might want to open every file as `rw+`, even if you're not planning to write to it, but that's **not recommended**. Why?
+
+  Different modes restrict the file differently for other processes. If you're not planning to write to the file, please open the file **without** `w` mode, which will allow other processes to write to it to freely.
+</Callout>
+
+## Simplifying files
+
+Handles can be hard to work with, especially if you only need to read file once - you have to open in a correct mode, read, close. There's actually some built-in functions to simplify this process:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    var contents = await CatCore.FS.readFileString("/data/test.txt");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    contents = await CatCore.FS.readFileString("/data/test.txt")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      $contents = await $CatCore->FS->readFileString("/data/test.txt");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    contents = await CatCore.FS.readFileString("/data/test.txt")
+    ```
+  </Tab>
+</Tabs>
+
+As you can see in this example, there's functions like `CatCore.FS.readFile`, `CatCore.FS.readFileString`, `CatCore.FS.readFileJSON`, `CatCore.FS.writeFile` and they all are simplifying work with files. Note, that you still use handles - these functions are just wrappers and all they do is open, do the action and close.
+
+## Deleting files
+
+Deleting files is easy:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    await CatCore.FS.deleteFile("/data/test.txt");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    await CatCore.FS.deleteFile("/data/test.txt")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      await $CatCore->FS->deleteFile("/data/test.txt");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    await CatCore.FS.deleteFile("/data/test.txt")
+    ```
+  </Tab>
+</Tabs>
+
+## Symlinks
+
+**Symbolic links** (or **symlinks**) are just **shortcuts**. Let's make a symlink:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    await CatCore.FS.link("/data/test.txt", "/data/test2.txt");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    await CatCore.FS.link("/data/test.txt", "/data/test2.txt")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      await $CatCore->FS->link("/data/test.txt", "/data/test2.txt");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    await CatCore.FS.link("/data/test.txt", "/data/test2.txt")
+    ```
+  </Tab>
+</Tabs>
+
+After this operation, there will be two paths `/data/test.txt` and `/data/test2.txt`, but they both point to a single file! If you change contents of one of them, other one will also change. Symlinks also work the same with directories.
+
+## Path normalization
+
+If you're making a file explorer, a terminal or anything else, you might need this function:
+
+<Tabs groupId="oslanguage" items={["JavaScript", "Python", "PHP", "Ruby"]} persist>
+  <Tab value="JavaScript">
+    ```javascript
+    var fixedPath = CatCore.FS.normalizePath("/data\\../data/./test.txt");
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    fixedPath = CatCore.FS.normalizePath("/data\\../data/./test.txt")
+    ```
+  </Tab>
+  <Tab value="PHP">
+    ```php
+    <?php
+      $fixedPath = $CatCore->FS->normalizePath("/data\\../data/./test.txt");
+    ?>
+    ```
+  </Tab>
+  <Tab value="Ruby">
+    ```ruby
+    fixedPath = CatCore.FS.normalizePath("/data\\../data/./test.txt")
+    ```
+  </Tab>
+</Tabs>
+
+This function "fixes" paths - `"/data\\../data/./test.txt"` will be transformed to `"/data/test.txt"`.
