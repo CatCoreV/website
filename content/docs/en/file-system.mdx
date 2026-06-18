@@ -9,6 +9,9 @@ CatCore has it's own file system structure:
 
 <Files>
   <Folder name="/" defaultOpen>
+    <Folder name="app" defaultOpen>
+      <File name="..." />
+    </Folder>
     <Folder name="bin" defaultOpen>
       <File name="..." />
     </Folder>
@@ -25,7 +28,13 @@ CatCore has it's own file system structure:
     <Folder name="dev" defaultOpen>
       <File name="..." />
     </Folder>
+    <Folder name="lib" defaultOpen>
+      <File name="..." />
+    </Folder>
     <Folder name="system" defaultOpen>
+      <File name="..." />
+    </Folder>
+    <Folder name="tmp" defaultOpen>
       <File name="..." />
     </Folder>
   </Folder>
@@ -33,26 +42,35 @@ CatCore has it's own file system structure:
 
 `/` is root, containing **mounts** inside.
 
-`/bin`, `/boot`, `/config`, `/data`, `/dev` and `/system` are **mounts**, each one has it's own use:
+`/app`, `/bin`, `/boot`, `/config`, `/data`, `/dev`, `/lib`, `/system` and `/tmp` are **mounts**, each one has it's own use:
 
 <Accordions>
+  <Accordion title="/app" id="filesystem-app">
+    `/app` mount contains a **APP**lication's embedded files. Applications can have embedded files (for example, .png icons) packaged directly into the .app file, and those files can be accessed in `/app` mount. Remember that this mount is read-only, you can't modify an .app file using it.
+  </Accordion>
   <Accordion title="/bin" id="filesystem-bin">
-    `/bin` mount contains **BIN**aries of applications (.app files). If user tries to start an application by specifying it's name, it's a standard to look for it in there.
+    `/bin` mount contains **BIN**aries of applications (.app files). If user tries to start an application by specifying it's name, it's a standard to look for it in there, even though it's not really required (you're able to launch applications from a different folder instead of `/bin`).
   </Accordion>
   <Accordion title="/boot" id="filesystem-boot">
     `/boot` mount contains files needed for **BOOT**ing, like `/boot/bootloader.bin` and `/boot/kernel`. If any of these files are deleted, your OS might not boot. This also allows you to make sure your OS can use the latest kernel without any re-installations, as your OS can just swap the file with a different version of bootloader/kernel.
   </Accordion>
-  <Accordion title="/config" id="filesystem-size">
+  <Accordion title="/config" id="filesystem-config">
     `/config` contains **CONFIG**uration (.conf files) for various targets. For example, kernel has it's own `/config/kernel.conf` file there.
   </Accordion>
-  <Accordion title="/data" id="filesystem-color">
+  <Accordion title="/data" id="filesystem-data">
     `/data` is empty by default. You're supposed to store anything your OS/user/apps want there.
   </Accordion>
-  <Accordion title="/dev" id="filesystem-background">
+  <Accordion title="/dev" id="filesystem-dev">
     `/dev` contains **devices** inside and it's contents may vary on the host device.
   </Accordion>
-  <Accordion title="/system" id="filesystem-background">
+  <Accordion title="/lib" id="filesystem-lib">
+    `/lib` mount contains **LIB**aries for applications to use. By default of `lib_path` (from `/config/kernel.conf`), libraries will first be checked in `/app`, and then in `/lib`, but it's not really required (you're able to change `lib_path` to use a different folder instead of `/lib`).
+  </Accordion>
+  <Accordion title="/system" id="filesystem-system">
     `/system` is empty by default, but you're supposed to add files there using `src/overlay-fs/system` of your OS source code. This mount is supposed to contain OS files and CatCore looks for `system` or `sys` file to boot in there.
+  </Accordion>
+  <Accordion title="/tmp" id="filesystem-tmp">
+    `/tmp` is a temporary in-memory file system. You're able to read and write any files there, but they'll be stored in RAM only, which means they will not stay after a reboot.
   </Accordion>
 </Accordions>
 
