@@ -4,6 +4,7 @@ import {
   type ComponentProps,
   createContext,
   type HTMLAttributes,
+  CSSProperties,
   type ReactNode,
   type RefObject,
   use,
@@ -148,7 +149,7 @@ export function CodeBlock({
               ? `line ${Number(props['data-line-numbers-start'] ?? 1) - 1}`
               : undefined,
             ...viewportProps.style,
-          } as object
+          } as CSSProperties
         }
       >
         {children}
